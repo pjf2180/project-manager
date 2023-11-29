@@ -7,10 +7,13 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
+    "seed": "node -r dotenv/config ./scripts/seed.js",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
   "dependencies": {
+    "@vercel/postgres": "^0.5.1",
+    "dotenv": "^16.3.1",
     "next": "14.0.1",
     "react": "^18",
     "react-dom": "^18"
