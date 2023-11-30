@@ -136,21 +136,27 @@ async function seedTasks(client) {
     const insertedTasks = await Promise.all(
       TASKS.map(
         (task) => client.sql`
-        INSERT INTO tasks (id, name, task_status, description, time_estimate, due_date, project_id)
-        VALUES (${task.id}, ${task.name}, ${task.status}, ${task.description}, ${task.timeEstimate}, ${task.dueDate}, ${task.projectId})
+        INSERT INTO tasks ( name, task_status, description, time_estimate, due_date, project_id)
+        VALUES ( ${task.name}, ${task.status}, ${task.description}, ${task.timeEstimate}, ${task.dueDate}, ${task.projectId})
         ON CONFLICT (id) DO NOTHING;
       `,
       ),
     );
 
-    const taskMembers = TASKS.map(task => {
+    const allTaskIds = await client.sql`
+    SELECT id
+    FROM tasks`;
+    const taskMembers = TASKS.map((task, idx) => {
       const { members } = task;
-      return members.map(memberId => ({ memberId, task }));
+      const taskId = allTaskIds.rows[idx].id;
+      return members.map(memberId => ({ memberId, taskId }));
     }).reduce((a, c) => [...a, ...c], []);
+
+   
 
 
     const insertedTaskMembers = await Promise.all(
-      taskMembers.map(({ memberId, task }) => seedTaskMember(client, task.id, memberId ))
+      taskMembers.map(({ memberId, taskId }) => seedTaskMember(client, taskId, memberId ))
     );
     console.log(`Seeded ${insertedTasks.length} tasks`);
 

@@ -1,4 +1,5 @@
 export type Label = {
-    id: string;
+    id?: string;
     text: string;
+    color: 'blue' | 'red'|'green';
 }

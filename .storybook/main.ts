@@ -1,4 +1,5 @@
 import type { StorybookConfig } from "@storybook/nextjs";
+import path from "node:path";
 
 const config: StorybookConfig = {
   stories: [
@@ -14,6 +15,14 @@ const config: StorybookConfig = {
   framework: {
     name: "@storybook/nextjs",
     options: {},
+  },
+  webpackFinal: (config) => {
+    config?.module?.rules?.push({
+      test: /\.scss$/,
+      use: ['style-loader', 'css-loader', 'sass-loader'],
+      include: path.resolve(__dirname, '../'),
+    });
+    return config;
   },
   docs: {
     autodocs: "tag",
