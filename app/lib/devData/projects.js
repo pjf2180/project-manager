@@ -5,7 +5,11 @@ const PROJECTS = [
     },
     {
         id: 'c4051e34-43cd-4024-9043-7dd3d05db77b',
-        name: 'Backe-end Dev'
+        name: 'Back-end Dev'
+    },
+    {
+        id: 'c3051e34-43cd-4024-9043-7dd3d05db77b',
+        name: 'Back-end Dev2'
     },
 ];
 
