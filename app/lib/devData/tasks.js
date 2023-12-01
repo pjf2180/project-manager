@@ -9,6 +9,12 @@ const TASKS = [
         timeEstimate: 6,
         dueDate: '2023-11-28',
         projectId: 'cd33b60b-4c0a-4b96-aefe-8d620f55f8fc',
+        labels_json: JSON.stringify([
+            {
+                text: 'front-end',
+                color: 'green'
+            },
+        ]),
         todos: [
             {
                 text: 'Build wireframe mockup',
@@ -40,6 +46,12 @@ const TASKS = [
         timeEstimate: 6,
         dueDate: '2023-11-28',
         projectId: 'cd33b60b-4c0a-4b96-aefe-8d620f55f8fc',
+        labels_json: JSON.stringify([
+            {
+                text: 'front-end',
+                color: 'green'
+            },
+        ]),
         todos: [
             {
                 text: 'Build wireframe mockup',
@@ -71,6 +83,12 @@ const TASKS = [
         timeEstimate: 6,
         dueDate: '2023-11-28',
         projectId: 'cd33b60b-4c0a-4b96-aefe-8d620f55f8fc',
+        labels_json: JSON.stringify([
+            {
+                text: 'front-end',
+                color: 'green'
+            },
+        ]),
         todos: [
             {
                 text: 'Build wireframe mockup',
@@ -102,6 +120,12 @@ const TASKS = [
         timeEstimate: 6,
         dueDate: '2023-11-28',
         projectId: 'cd33b60b-4c0a-4b96-aefe-8d620f55f8fc',
+        labels_json: JSON.stringify([
+            {
+                text: 'front-end',
+                color: 'green'
+            },
+        ]),
         todos: [
             {
                 text: 'Build wireframe mockup',
@@ -133,6 +157,12 @@ const TASKS = [
         timeEstimate: 4,
         dueDate: '2023-12-28',
         projectId: 'c4051e34-43cd-4024-9043-7dd3d05db77b',
+        labels_json: JSON.stringify([
+            {
+                text: 'front-end',
+                color: 'green'
+            },
+        ]),
         todos: [
             {
                 text: 'Build wireframe mockup',

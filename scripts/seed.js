@@ -4,6 +4,59 @@ const { PROJECTS } = require('../app/lib/devData/projects');
 const { USERS } = require('../app/lib/devData/users');
 const { PROJECT_MEMBERS } = require('../app/lib/devData/projectMembers');
 const { TASKS } = require('../app/lib/devData/tasks');
+const { LABEL_GROUPS } = require('../app/lib/devData/labelGroups');
+const { ORGANIZATIONS } = require('../app/lib/devData/organizations');
+
+async function seedOrgs(client) {
+  try {
+    await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
+    const buildTable = client.sql`
+      CREATE TABLE IF NOT EXISTS organizations (
+        id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+        name VARCHAR(50) NOT NULL
+      );
+    `;
+    const insertedOrgs = await Promise.all(ORGANIZATIONS.map(org => {
+      const { id, name } = org;
+      return client.sql`
+        INSERT INTO organizations (id, name)
+        VALUES (${id}, ${name})
+    `;
+    }))
+    return {
+      buildTable,
+      insertedOrgs
+    }
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
+
+async function seedLabelGroups(client) {
+  try {
+    await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
+    const buildTable = client.sql`
+      CREATE TABLE IF NOT EXISTS labelgroups (
+        organization_id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+        options_json jsonb NOT NULL
+      );
+    `;
+    const insertedLabelGroups = await Promise.all(LABEL_GROUPS.map(lB => {
+      return client.sql`
+        INSERT INTO labelgroups (organization_id, options_json)
+        VALUES (${lB.organization_id}, (${lB.options_json}::jsonb))
+      `;
+    }));
+    return {
+      buildTable,
+      insertedLabelGroups
+    }
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
 
 async function seedProjects(client) {
   try {
@@ -12,7 +65,8 @@ async function seedProjects(client) {
     const createTable = await client.sql`
       CREATE TABLE IF NOT EXISTS projects (
         id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
-        name VARCHAR(50) NOT NULL
+        name VARCHAR(50) NOT NULL,
+        organization_id UUID REFERENCES organizations(id) NOT NULL
       );
     `;
 
@@ -21,10 +75,10 @@ async function seedProjects(client) {
     // Insert data into the "projects" table
     const insertedProjects = await Promise.all(
       PROJECTS.map(async (project) => {
-        // const hashedPassword = await bcrypt.hash(project.password, 10);
+        console.log(project)
         return client.sql`
-        INSERT INTO projects (id, name)
-        VALUES (${project.id}, ${project.name})
+        INSERT INTO projects (id, name, organization_id)
+        VALUES (${project.id}, ${project.name}, ${project.organization_id})
         ON CONFLICT (id) DO NOTHING;
       `;
       }),
@@ -122,6 +176,7 @@ async function seedTasks(client) {
         id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
         name  VARCHAR(50) NOT NULL,
         task_status status NOT NULL,
+        labels_json jsonb NOT NULL,
         description VARCHAR(1024) NOT NULL,
         time_estimate int NULL,
         due_date DATE,
@@ -136,8 +191,8 @@ async function seedTasks(client) {
     const insertedTasks = await Promise.all(
       TASKS.map(
         (task) => client.sql`
-        INSERT INTO tasks ( name, task_status, description, time_estimate, due_date, project_id)
-        VALUES ( ${task.name}, ${task.status}, ${task.description}, ${task.timeEstimate}, ${task.dueDate}, ${task.projectId})
+        INSERT INTO tasks ( name, task_status, description, time_estimate, due_date, project_id, labels_json)
+        VALUES ( ${task.name}, ${task.status}, ${task.description}, ${task.timeEstimate}, ${task.dueDate}, ${task.projectId}, (${task.labels_json}::jsonb))
         ON CONFLICT (id) DO NOTHING;
       `,
       ),
@@ -152,11 +207,11 @@ async function seedTasks(client) {
       return members.map(memberId => ({ memberId, taskId }));
     }).reduce((a, c) => [...a, ...c], []);
 
-   
+
 
 
     const insertedTaskMembers = await Promise.all(
-      taskMembers.map(({ memberId, taskId }) => seedTaskMember(client, taskId, memberId ))
+      taskMembers.map(({ memberId, taskId }) => seedTaskMember(client, taskId, memberId))
     );
     console.log(`Seeded ${insertedTasks.length} tasks`);
 
@@ -188,7 +243,7 @@ async function seedTaskMember(client, taskId, userId) {
       insertedMember
     }
   } catch (error) {
-    console.error('Error seeding task member:',taskId, userId, error);
+    console.error('Error seeding task member:', taskId, userId, error);
     throw error;
   }
 }
@@ -196,6 +251,9 @@ async function seedTaskMember(client, taskId, userId) {
 async function dropTables(client) {
   try {
     await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
+    const dropLabelGroupsTable = await client.sql`
+    DROP TABLE IF EXISTS labelgroups;
+    `;
     const dropMembersTable = await client.sql`
     DROP TABLE IF EXISTS projectMembers;
     `;
@@ -211,17 +269,21 @@ async function dropTables(client) {
     const dropUsersTable = await client.sql`
     DROP TABLE IF EXISTS users;
     `;
-
+    const dropOrgsTable = await client.sql`
+    DROP TABLE IF EXISTS organizations;
+    `;
     const dropStatusType = await client.sql`DROP TYPE IF EXISTS status;
     `;
 
     return {
+      dropLabelGroupsTable,
       dropUsersTable,
       dropTaskMembersTable,
       dropProjectsTable,
       dropMembersTable,
       dropTasksTable,
-      dropStatusType
+      dropStatusType,
+      dropOrgsTable
     }
   } catch (error) {
     console.error('Error dropping one or more tables:', error);
@@ -230,6 +292,8 @@ async function dropTables(client) {
 async function main() {
   const client = await db.connect();
   await dropTables(client);
+  await seedOrgs(client);
+  await seedLabelGroups(client);
   await seedProjects(client);
   await seedUsers(client);
   await seedProjectMembers(client);
