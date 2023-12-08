@@ -12,6 +12,10 @@ const LABEL_GROUPS = [
                 text: 'back-end',
                 color: 'blue'
             },
+            {
+                text: 'Design',
+                color: 'red'
+            },
         ])
     }
 ];

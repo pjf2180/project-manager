@@ -6,7 +6,6 @@ import { usePathname } from "next/navigation";
 
 export function ProjectList({ projects }: { projects: Project[] }) {
     const pathname = usePathname();
-    console.log(pathname);
     return (
         <>
             <div>YOUR PROJECTS</div>
@@ -14,11 +13,14 @@ export function ProjectList({ projects }: { projects: Project[] }) {
                 <ul>
                     {
                         projects.map((project: Project) => {
-                            console.log(pathname.split('/'))
                             const selected: boolean = project.id === pathname.split('/')[2]
-                            return (<li key={project.id}><Link href={`${project.id}`}>
-                                <ProjectListItem selected={selected} item={{ memberCount: 6, title: project.name }} />
-                            </Link></li>)
+                            return (
+                                <li key={project.id}>
+                                    <Link replace={true} href={`${project.id}`}>
+                                        <ProjectListItem
+                                            selected={selected}
+                                            item={{ memberCount: 6, title: project.name }} />
+                                    </Link></li>)
                         })
                     }
                 </ul>

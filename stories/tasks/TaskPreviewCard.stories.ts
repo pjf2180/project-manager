@@ -28,21 +28,19 @@ export const Primary: Story = {
             description: 'The description for this task',
             dueDate: new Date(),
             id: '0',
+            status: 'open',
             projectId: 'asdffsd',
             time_estimate: 45,
             labels: [
                 {
-                    id: '0',
                     color: 'green',
                     text: 'design'
                 },
                 {
-                    id: '1',
                     color: 'blue',
                     text: 'design'
                 },
                 {
-                    id: '2',
                     color: 'red',
                     text: 'design'
                 },

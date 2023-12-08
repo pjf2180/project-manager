@@ -18,3 +18,13 @@ export type TaskStatus = 'open' | 'progress' | 'closed';
 export type TaskGroupByStatus = {
     [key in TaskStatus]: Task[];
 };
+
+export type TaskTodo = {
+    text: string;
+    completed: boolean;
+}
+
+export type TaskViewModel = {
+    task: Task,
+    todo: TaskTodo[]
+}

@@ -1,5 +1,6 @@
 import { Task } from "@/app/lib/models/tasks"
 import { TaskPreviewCard } from "./TaskPreviewCard"
+import { NewTaskLink } from "./NewTaskLink"
 
 export function TaskColumn({ status, count, tasks = [] }: { status: string, count: number, tasks: Task[] }) {
     return <div className="flex flex-col gap-6">
@@ -14,5 +15,6 @@ export function TaskColumn({ status, count, tasks = [] }: { status: string, coun
                 })
             }
         </div>
+        <NewTaskLink/>
     </div>
 }
