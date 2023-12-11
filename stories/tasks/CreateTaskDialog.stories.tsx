@@ -35,6 +35,26 @@ export const Primary: Story = {
         taskVm: {
             task: { ...TaskPreviewCardStory.Primary.args.task },
             todo: []
-        }
+        },
+        projectId: 'The projectId',
+        labels: [
+            {
+                color: 'blue',
+                text: 'DASHBOARD'
+            },
+            {
+                color: 'blue',
+                text: 'FRONTEND'
+            },
+        ],
+        projectMembers: [
+            {
+                id: 'ID',
+                email: 'BLAH@gmail.com',
+                name: 'firstName',
+                lastName: 'lastname',
+                profileImage: 'urlforimage'
+            }
+        ]
     },
 };

@@ -6,6 +6,7 @@ import { Member } from "@/app/lib/models/members";
 import { TaskGroupByStatus } from "@/app/lib/models/tasks";
 import { CreateTaskDialog } from "@/app/ui/tasks/CreateTaskDialog";
 import { TasksByStatus } from "@/app/ui/tasks/TasksByStatus";
+import { createInvoice } from "@/app/lib/actions";
 
 export const dynamic = 'force-dynamic';
 
@@ -21,7 +22,7 @@ export default async function ProjectTasksPage({ params, searchParams }: { param
                 <TasksByStatus groups={groups} />
             </div>
             {
-                displayModal && <CreateTaskDialog projectId={projectId[0]} labels={projectLabels} projectMembers={projectMembers} />
+                displayModal && <CreateTaskDialog actionFn={createInvoice} projectId={projectId[0]} labels={projectLabels} projectMembers={projectMembers} />
             }
         </>
     )

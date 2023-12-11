@@ -2,7 +2,6 @@
 import { TaskViewModel } from "@/app/lib/models/tasks";
 import { LabelSelector } from "../shared/inputs/labels";
 import { Label } from "@/app/lib/models/labels";
-import { createInvoice } from "@/app/lib/actions";
 import { ChangeEvent, useState } from "react";
 import { Member } from "@/app/lib/models/members";
 import { MemberDropdown } from "../users/MemberDropdown";
@@ -23,10 +22,11 @@ export type CreateTaskDialogProps = {
     projectId: string;
     taskVm?: TaskViewModel;
     projectMembers: Member[];
-    labels: Label[]
+    labels: Label[];
+    actionFn: (formData: FormData) => void
 }
 
-export function CreateTaskDialog({ taskVm, projectId, projectMembers, labels }: CreateTaskDialogProps) {
+export function CreateTaskDialog({ taskVm, projectId, projectMembers, labels, actionFn }: CreateTaskDialogProps) {
 
     const pathname = usePathname();
 
@@ -49,7 +49,7 @@ export function CreateTaskDialog({ taskVm, projectId, projectMembers, labels }: 
 
     return (
         <Dialog>
-            <form action={createInvoice}>
+            <form action={actionFn}>
                 <div className="bg-white rounded-md" style={{ width: '600px' }}>
                     <div className="flex justify-between p-4 pl-8 pr-8 border-b-2 mb-4 ">
                         <div className="font-semibold text-2xl">Create Task</div>
@@ -114,7 +114,7 @@ export function CreateTaskDialog({ taskVm, projectId, projectMembers, labels }: 
                         <div className="flex">
                             <button className="p-2 pr-4 pl-4 rounded-md border-2 bg-slate-100">
                                 <Link href={`${pathname}`}>Cancel</Link>
-                                </button>
+                            </button>
                         </div>
                         <div className="flex justify-end gap-4">
                             <div className="flex">
