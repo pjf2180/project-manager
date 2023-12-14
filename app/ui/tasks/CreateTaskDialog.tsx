@@ -118,7 +118,7 @@ export function CreateTaskDialog({ taskVm, projectId, projectMembers, labels, ac
                         </div>
                         <div className="flex justify-end gap-4">
                             <div className="flex">
-                                <button type="submit" className="p-2 pr-4 pl-4 rounded-md border-2 bg-green-600 text-white">Create Task</button>
+                                <button type="submit" className="p-2 pr-4 pl-4 rounded-md border-2 bg-green text-white">Create Task</button>
                             </div>
                         </div>
                         <input type="hidden" name="projectId" value={projectId} />

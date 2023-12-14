@@ -1,4 +1,4 @@
-import type { Config } from 'tailwindcss'
+import type { Config } from 'tailwindcss';
 
 const config: Config = {
   content: [
@@ -26,11 +26,17 @@ const config: Config = {
           'light': '#4EBE54',
           'DEFAULT': '#34AA44',
         },
+        'violet': {
+          'xx-light': '#82E675',
+          'x-light': '#68D265',
+          'light': '#4EBE54',
+          'DEFAULT': '#6758F3',
+        },
         'red': {
           'xx-light': '#F59D8D',
           'x-light': '#F3816D',
           'light': '#F1654D',
-          'DEFAULT': 'E6492D'
+          'DEFAULT': '#E6492D'
         },
         'orange': {
           'xx-light': '#FEEB8F',
@@ -44,24 +50,33 @@ const config: Config = {
           'light': '#FBDF75',
           'DEFAULT': '#FACF55'
         },
-        'text': {
-          'main': '#3E3F42',
-          'secondary': '#6B6C6F',
-          'gray': '#BCBCBC'
-        }
+        'main': {
+          'xx-light': '#3E3F42',
+          'x-light': '#3E3F42',
+          'light': '#3E3F42',
+          'DEFAULT': '#3E3F42',
+        },
+        'secondary': {
+          'xx-light': '#6B6C6F',
+          'x-light': '#6B6C6F',
+          'light': '#6B6C6F',
+          'DEFAULT': '#6B6C6F',
+        },
+        'gray': {
+          'xx-light': '#BCBCBC',
+          'x-light': '#BCBCBC',
+          'light': '#BCBCBC',
+          'DEFAULT': '#BCBCBC',
+        },
+      },
+      fontFamily: {
+        sans: ["Roboto", "sans-serif"],
+        serif: ["Roboto Slab", "serif"],
+        body: ["Roboto", "sans-serif"],
       },
     },
-    fontFamily: {
-      sans: ["Roboto", "sans-serif"],
-      serif: ["Roboto Slab", "serif"],
-      body: ["Roboto", "sans-serif"],
-    },
-    spacing: {
-      '1': '10px',
-      '2': '20px',
-      '3': '30px',
-    }
-  },
-  plugins: [],
-}
+    plugins: [],
+  }
+};
+
 export default config

@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { ProjectListItem } from '../../app/ui/projects/projectListItem';
-// import * as TaskPreviewCardStory from './TaskPreviewCard.stories';
+import { BackgroundColorPalette } from '../../app/ui/shared/design/ColorPalette';
 
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
@@ -36,7 +36,8 @@ export const Default: Story = {
         item: {
             title: 'Front-End Dev',
             memberCount: 6
-        }
+        },
+        avatarColor: BackgroundColorPalette.blue.DEFAULT
     },
 };
 export const Selected: Story = {
@@ -45,6 +46,7 @@ export const Selected: Story = {
         item: {
             title: 'Front-End Dev',
             memberCount: 6
-        }
+        },
+        avatarColor:  BackgroundColorPalette.blue.DEFAULT
     },
 };

@@ -2,10 +2,11 @@ import * as React from 'react';
 import {TaskLabelPreview} from './TaskLabelPreview';
 import { UsersPreview } from '../users/UsersPreview';
 import { Task } from '@/app/lib/models/tasks';
+import clsx from 'clsx';
 
-export function TaskPreviewCard({ task }: { task: Task }) {
+export function TaskPreviewCard({ task, idx }: { task: Task, idx: number }) {
     const { dueDate, name, members, labels }: Task = task;
-    return (<div className="flex flex-col gap-6 p-6 border-2 border-stone-100">
+    return (<div className={clsx('flex flex-col gap-6 p-6 border-2 border-b-0', { 'rounded-t-md': idx == 0})}>
         {/* {
             image && <div className="flex flex-row justify-between items-center ">
                 <div className="text-white">Image</div>
