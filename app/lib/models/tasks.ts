@@ -10,6 +10,7 @@ export type Task = {
     time_estimate: number; // hours
     dueDate: Date;
     members: Member[];
+    created_at: Date;
     labels?: Label[];
 };
 

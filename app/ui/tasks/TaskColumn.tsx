@@ -5,7 +5,6 @@ import clsx from "clsx"
 
 export function TaskColumn({ status, count, tasks = [] }: { status: string, count: number, tasks: Task[] }) {
     const getTopBorder = (status: string) => {
-        console.log(status);
         switch(status){
             case 'open':
                 return '';
@@ -24,7 +23,7 @@ export function TaskColumn({ status, count, tasks = [] }: { status: string, coun
         <div>
             {
                 tasks.map((t: Task, i: number) => {
-                    return <TaskPreviewCard key={t.id} task={t} idx={i} />
+                    return <TaskPreviewCard key={t.id} currentDate={new Date()} task={t} idx={i} />
                 })
             }
             <NewTaskLink />

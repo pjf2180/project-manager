@@ -26,7 +26,8 @@ export const Primary: Story = {
         task: {
             name: 'Website Redesign',
             description: 'The description for this task',
-            dueDate: new Date(),
+            dueDate: new Date('2023-12-17T01:41:37.684Z'),
+            created_at: new Date('2023-12-01T01:41:37.684Z'),
             id: '0',
             status: 'open',
             projectId: 'asdffsd',
@@ -38,11 +39,11 @@ export const Primary: Story = {
                 },
                 {
                     color: 'blue',
-                    text: 'design'
+                    text: 'front-end'
                 },
                 {
                     color: 'red',
-                    text: 'design'
+                    text: 'backend'
                 },
             ],
             members: [
@@ -62,7 +63,8 @@ export const Primary: Story = {
                 },
             ]
 
-        }
-
+        },
+        currentDate: new Date('2023-12-13T01:41:37.684Z'),
+        idx: 0
     },
 };

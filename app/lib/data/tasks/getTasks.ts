@@ -23,6 +23,7 @@ export async function fetchTasksByStatus(projectId: string): Promise<TaskGroupBy
                 description: r.description,
                 labels: r.labels_json,
                 members,
+                created_at: new Date(r.created_at),
                 dueDate: new Date(r.due_date),
             }
         });
