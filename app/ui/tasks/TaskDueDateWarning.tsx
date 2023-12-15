@@ -3,11 +3,20 @@ import { calculateDaysRemaining } from "../../lib/utils/dates";
 export type TaskDueDateWarningProps = {
     currentDate: Date;
     dueDate: Date;
+    displayDueDate?: boolean
 }
-export function TaskDueDateWarning({ currentDate, dueDate }: TaskDueDateWarningProps) {
+export function TaskDueDateWarning({ currentDate, dueDate, displayDueDate = true }: TaskDueDateWarningProps) {
     const remainingDays = calculateDaysRemaining(currentDate, dueDate);
+    console.log(remainingDays);
+    if (remainingDays <= 0) {
+        return (
+            <div className="rounded-md text-sm text-white p-1 w-fit bg-orange">
+                OVERDUE
+            </div>
+        );
+    }
     if (remainingDays > 5) {
-        return null;
+        return displayDueDate ? currentDate.toLocaleDateString('en-US') : null;
     }
     return (
         <div className="rounded-md text-sm text-white p-1 w-fit bg-orange">

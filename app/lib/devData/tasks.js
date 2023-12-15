@@ -7,7 +7,7 @@ const TASKS = [
         description: `Our brand & product have evolved over the past two years, and our website should be updated to reflect this. The new site will be mobile-first, responsive and lightweight. We should also focus on SEO with David Kelly my brother.
         Feel free to discuss this project with Jason as well.`,
         timeEstimate: 6,
-        dueDate: '2023-11-28',
+        dueDate: '2023-12-28',
         projectId: 'cd33b60b-4c0a-4b96-aefe-8d620f55f8fc',
         labels_json: JSON.stringify([
             {
@@ -44,7 +44,7 @@ const TASKS = [
         description: `Our brand & product have evolved over the past two years, and our website should be updated to reflect this. The new site will be mobile-first, responsive and lightweight. We should also focus on SEO with David Kelly my brother.
         Feel free to discuss this project with Jason as well.`,
         timeEstimate: 6,
-        dueDate: '2023-11-28',
+        dueDate: '2023-12-28',
         projectId: 'cd33b60b-4c0a-4b96-aefe-8d620f55f8fc',
         labels_json: JSON.stringify([
             {
@@ -81,7 +81,7 @@ const TASKS = [
         description: `Our brand & product have evolved over the past two years, and our website should be updated to reflect this. The new site will be mobile-first, responsive and lightweight. We should also focus on SEO with David Kelly my brother.
         Feel free to discuss this project with Jason as well.`,
         timeEstimate: 6,
-        dueDate: '2023-11-28',
+        dueDate: '2023-12-28',
         projectId: 'cd33b60b-4c0a-4b96-aefe-8d620f55f8fc',
         labels_json: JSON.stringify([
             {
@@ -118,7 +118,7 @@ const TASKS = [
         description: `Our brand & product have evolved over the past two years, and our website should be updated to reflect this. The new site will be mobile-first, responsive and lightweight. We should also focus on SEO with David Kelly my brother.
         Feel free to discuss this project with Jason as well.`,
         timeEstimate: 6,
-        dueDate: '2023-11-28',
+        dueDate: '2023-12-28',
         projectId: 'cd33b60b-4c0a-4b96-aefe-8d620f55f8fc',
         labels_json: JSON.stringify([
             {

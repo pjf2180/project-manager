@@ -15,7 +15,6 @@ export type TaskPreviewCardProps = {
 export function TaskPreviewCard({ task, idx, currentDate }: TaskPreviewCardProps) {
     const { dueDate, name, members, labels }: Task = task;
     const pathname = usePathname();
-    console.log(pathname);
     return (
         <Link href={`${pathname}?taskDetails=${task.id}`}>
             <div
@@ -39,7 +38,7 @@ export function TaskPreviewCard({ task, idx, currentDate }: TaskPreviewCardProps
                 </div>
                 <div className="flex flex-row justify-between items-center ">
                     <UsersPreview members={members} />
-                    <TaskDueDateWarning currentDate={currentDate} dueDate={dueDate} />
+                    <TaskDueDateWarning displayDueDate={false} currentDate={currentDate} dueDate={dueDate} />
 
                 </div>
             </div>
