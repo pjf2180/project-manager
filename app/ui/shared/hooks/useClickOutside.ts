@@ -1,6 +1,6 @@
 'use client';
 
-import { MutableRefObject, useEffect, useRef } from "react";
+import { MutableRefObject, useEffect } from "react";
 
 export function useClickOutside(elRef: MutableRefObject<HTMLDivElement | null>, handler: Function) {
 

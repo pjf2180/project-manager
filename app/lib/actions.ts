@@ -4,6 +4,7 @@ import { Label } from './models/labels';
 import { createTasks } from './data/tasks/createTasks';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
+import { editTask } from './data/tasks/editTasks';
 
 
 const TaskSchema = z.object({
@@ -13,9 +14,12 @@ const TaskSchema = z.object({
     dueDate: z.string(),
     labels: z.string(),
     members: z.string(),
-    projectId: z.string()
+    projectId: z.string(),
+    task_status: z.enum(['progress', 'open', 'closed'])
 });
 export type TaskSchemaDto = z.infer<typeof TaskSchema>;
+const TaskUpdateSchema = TaskSchema.partial().extend({ taskId: z.string()});
+export type TaskUpdate = z.infer<typeof TaskUpdateSchema>;
 const ValidateTaskSchema = TaskSchema.omit({});
 
 const TaskLabelSchema = z.object({
@@ -51,4 +55,16 @@ export async function createInvoice(formData: FormData) {
     }
     revalidatePath('/board');
     redirect(`/projects/${formData.get('projectId')}`);
+}
+
+export async function updateTaskAction(formData: FormData) {
+    const rawData = Object.fromEntries(formData);
+    try {
+        const validatedTask = TaskUpdateSchema.parse(rawData);
+        await editTask(validatedTask as TaskUpdate);
+    } catch (error) {
+        console.log(error);
+    }
+
+    revalidatePath(`/projects/${formData.get('taskId')}`)
 }

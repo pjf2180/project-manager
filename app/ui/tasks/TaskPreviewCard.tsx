@@ -19,7 +19,7 @@ export function TaskPreviewCard({ task, idx, currentDate }: TaskPreviewCardProps
         <Link href={`${pathname}?taskDetails=${task.id}`}>
             <div
                 className={
-                    clsx('flex flex-col gap-6 p-6 border-2 border-b-0',
+                    clsx('bg-white flex flex-col gap-6 p-6 border-2 border-b-0',
                         { 'rounded-t-md': idx == 0 })
                 }
             >
@@ -39,7 +39,6 @@ export function TaskPreviewCard({ task, idx, currentDate }: TaskPreviewCardProps
                 <div className="flex flex-row justify-between items-center ">
                     <UsersPreview members={members} />
                     <TaskDueDateWarning displayDueDate={false} currentDate={currentDate} dueDate={dueDate} />
-
                 </div>
             </div>
         </Link>

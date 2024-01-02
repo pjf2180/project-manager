@@ -12,11 +12,11 @@ import { TaskDetailsDialog } from "@/app/ui/tasks/TaskDetailsDialog";
 export const dynamic = 'force-dynamic';
 
 export default async function ProjectTasksPage({ params, searchParams }: { params: { projectId: string[] }, searchParams: { [key: string]: string | string[] | undefined } }) {
-    const projectId = params.projectId;
-    const displayCreateModal = !!searchParams['modalOpen'];
-    const projectMembers: Member[] = await fetchProjectUsers(projectId[0]);
-    const projectLabels: Label[] = await fetchProjectLabels(projectId[0]);
-    const groups: TaskGroupByStatus = await fetchTasksByStatus(projectId[0]);
+    const projectId = params.projectId[0];
+
+    const projectMembers: Member[] = await fetchProjectUsers(projectId);
+    const projectLabels: Label[] = await fetchProjectLabels(projectId);
+    const groups: TaskGroupByStatus = await fetchTasksByStatus(projectId);
     const getSelectedTask = (): Task | undefined => {
         for (let i = 0; i < groups.open.length; i++) {
             const task = groups.open[i];
@@ -42,14 +42,13 @@ export default async function ProjectTasksPage({ params, searchParams }: { param
             <div className="flex justify-center">
                 <TasksByStatus groups={groups} />
             </div>
-            {
-                displayCreateModal &&
-                <CreateTaskDialog
-                    actionFn={createInvoice}
-                    projectId={projectId[0]}
-                    labels={projectLabels}
-                    projectMembers={projectMembers} />
-            }
+
+            <CreateTaskDialog
+                actionFn={createInvoice}
+                projectId={projectId}
+                labels={projectLabels}
+                projectMembers={projectMembers} />
+
             <TaskDetailsDialog task={getSelectedTask()} />
         </>
     )

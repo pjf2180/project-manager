@@ -1,18 +1,15 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { CreateTaskDialog } from '../../app/ui/tasks/CreateTaskDialog';
+import { CreateTask } from '../../app/ui/tasks/CreateTask';
 import * as TaskPreviewCardStory from './TaskPreviewCard.stories';
+import { StoryFrameDecorator } from '../utils/decorators';
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
-    title: 'Tasks/CreateTaskDialog',
-    component: CreateTaskDialog,
+    title: 'Tasks/CreateTask',
+    component: CreateTask,
     decorators: [
-        (storyFn: () => React.ReactNode) => {
-            return (<div style={{ padding: '8px', border: '1px dashed #ccc', backgroundColor: 'gray' }} >
-                {storyFn()}
-            </div>)
-        }
+        StoryFrameDecorator
     ],
 
     parameters: {
@@ -25,7 +22,7 @@ const meta = {
     argTypes: {
         // backgroundColor: { control: 'color' },
     },
-} satisfies Meta<typeof CreateTaskDialog>;
+} satisfies Meta<typeof CreateTask>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;

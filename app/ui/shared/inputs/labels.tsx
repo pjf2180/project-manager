@@ -68,7 +68,7 @@ export function LabelSelector(
 
     return (
         <div className="flex flex-col">
-            <div>LABELS</div>
+            <div className="text-sm text-secondary">LABELS</div>
             <div style={{ position: 'relative' }}>
                 <input name={name} type="hidden" value={JSON.stringify(hiddenInputValues)} />
                 <Dropdown

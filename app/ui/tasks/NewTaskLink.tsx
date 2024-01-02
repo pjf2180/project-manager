@@ -1,14 +1,13 @@
 'use client';
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import React from "react";
 
-export function NewTaskLink() {
+export function NewTaskLink({children}:{children: React.ReactNode}) {
     const pathName = usePathname();
     return (
-        <div className="flex justify-center border-2 p-5 rounded-b-md text-xs text-gray">
-            <Link href={`${pathName}?modalOpen=true`}>
-                ADD NEW TASK
-            </Link>
-        </div>
+        <Link href={`${pathName}?createTaskOpen=true`}>
+            {children}
+        </Link>
     )
 }

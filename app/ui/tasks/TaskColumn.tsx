@@ -5,7 +5,7 @@ import clsx from "clsx"
 
 export function TaskColumn({ status, count, tasks = [] }: { status: string, count: number, tasks: Task[] }) {
     const getTopBorder = (status: string) => {
-        switch(status){
+        switch (status) {
             case 'open':
                 return '';
             case 'progress':
@@ -16,7 +16,7 @@ export function TaskColumn({ status, count, tasks = [] }: { status: string, coun
     }
     const topBorder = getTopBorder(status);
     return <div className="flex flex-col gap-8 w-[350px]">
-        <div className={clsx('p-8 flex flex-row justify-between border-2 rounded-md text-sm text-main font-semibold', topBorder )}>
+        <div className={clsx('bg-white p-8 flex flex-row justify-between border-2 rounded-md text-sm text-main font-semibold', topBorder)}>
             <div>{status.toUpperCase()}</div>
             <div className="text-gray">{count}</div>
         </div>
@@ -26,7 +26,16 @@ export function TaskColumn({ status, count, tasks = [] }: { status: string, coun
                     return <TaskPreviewCard key={t.id} currentDate={new Date()} task={t} idx={i} />
                 })
             }
-            <NewTaskLink />
+            <NewTaskLink>
+                <div
+                    className={
+                        clsx(
+                            'bg-white flex justify-center border-2 p-5  text-xs text-gray',
+                            tasks.length == 0 ? 'rounded-md' : 'rounded-b-md'
+                        )}>
+                    ADD NEW TASK
+                </div >
+            </NewTaskLink>
         </div>
     </div>
 }
