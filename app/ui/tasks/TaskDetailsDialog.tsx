@@ -3,6 +3,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { Dialog } from "../shared/Dialog";
 import { TaskDetails } from "./TaskDetails";
 import { Task } from "../../lib/models/tasks";
+import { updateTaskAction } from "@/app/lib/actions";
 
 export function TaskDetailsDialog({ task }: { task?: Task }) {
     const router = useRouter();
@@ -24,6 +25,7 @@ export function TaskDetailsDialog({ task }: { task?: Task }) {
                 currentDate={currentDate}
                 task={task} 
                 onClose={onDialogDismiss}
+                updateTaskAction={updateTaskAction}
                 />
         </Dialog>
 }

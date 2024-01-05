@@ -7,7 +7,6 @@ export type TaskDueDateWarningProps = {
 }
 export function TaskDueDateWarning({ currentDate, dueDate, displayDueDate = true }: TaskDueDateWarningProps) {
     const remainingDays = calculateDaysRemaining(currentDate, dueDate);
-    console.log(remainingDays);
     if (remainingDays <= 0) {
         return (
             <div className="rounded-md text-sm text-white p-1 w-fit bg-orange">

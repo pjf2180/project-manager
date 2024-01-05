@@ -1,7 +1,7 @@
 'use client';
 import { TaskViewModel } from "@/app/lib/models/tasks";
 import { Label } from "@/app/lib/models/labels";
-import { Member } from "@/app/lib/models/members";
+import { User } from "@/app/lib/models/members";
 import { Dialog } from "../shared/Dialog";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { CreateTask } from "./CreateTask";
@@ -18,7 +18,7 @@ export type CreateTaskFormData = {
 export type CreateTaskDialogProps = {
     projectId: string;
     taskVm?: TaskViewModel;
-    projectMembers: Member[];
+    projectMembers: User[];
     labels: Label[];
     actionFn: (formData: FormData) => void
 }

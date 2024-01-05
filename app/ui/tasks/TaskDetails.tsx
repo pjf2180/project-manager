@@ -1,19 +1,18 @@
 import { Task } from "@/app/lib/models/tasks";
-import Link from "next/link";
 import { UsersPreview } from "../users/UsersPreview";
 import { Label } from "@/app/lib/models/labels";
 import { LabelChip } from "../shared/labels/LabelChip";
 import { ChangeEvent, useRef, useState } from "react";
 import { TaskDueDateWarning } from "./TaskDueDateWarning";
-import { updateTaskAction } from "@/app/lib/actions";
 
 export type TaskDetailProps = {
     task: Task,
     currentDate: Date,
-    onClose: Function
+    onClose: Function,
+    updateTaskAction: (formData: FormData) => void
 }
 
-export function TaskDetails({ task, currentDate, onClose }: TaskDetailProps) {
+export function TaskDetails({ task, currentDate, onClose, updateTaskAction }: TaskDetailProps) {
     const { name, description, time_estimate, created_at, dueDate, members, labels = [], status } = task;
     console.log(labels);
     const formRef = useRef<HTMLFormElement | null>(null);

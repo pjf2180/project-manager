@@ -10,7 +10,7 @@ export function TaskLabelPreview({ labels }: { labels: Label[] }) {
         {
             labels.map((label: Label) => {
                 const backgroundColor: string = colorVariants[label.color];
-                return <div key={label.id} className={`h-1 w-6 ${backgroundColor}`}></div>
+                return <div key={`${label.text}-${label.color}`} className={`h-1 w-6 ${backgroundColor}`}></div>
             })
         }
     </div>);

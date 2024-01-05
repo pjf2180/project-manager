@@ -1,12 +1,12 @@
 'useClient';
 import React from "react";
-import { Member } from "@/app/lib/models/members";
+import { User } from "@/app/lib/models/members";
 
-export function UsersPreview({ members }: { members: Member[] }) {
+export function UsersPreview({ members }: { members: User[] }) {
     return (
         <div className="flex flex-row gap-2">
             {
-                members.map((member: Member) => {
+                members.map((member: User) => {
                     return <UserAvatar key={member.id} member={member} />
                 })
             }
@@ -17,7 +17,7 @@ export function UsersPreview({ members }: { members: Member[] }) {
     )
 }
 export interface UserAvatarProps extends React.AllHTMLAttributes<HTMLDivElement> {
-    member: Member
+    member: User
 }
 
 export function UserAvatar({ member, ...otherProps }: UserAvatarProps) {

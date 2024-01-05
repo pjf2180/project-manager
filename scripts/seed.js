@@ -6,6 +6,7 @@ const { PROJECT_MEMBERS } = require('../app/lib/devData/projectMembers');
 const { TASKS } = require('../app/lib/devData/tasks');
 const { LABEL_GROUPS } = require('../app/lib/devData/labelGroups');
 const { ORGANIZATIONS } = require('../app/lib/devData/organizations');
+const bcrypt = require('bcrypt');
 
 async function seedOrgs(client) {
   try {
@@ -106,6 +107,7 @@ async function seedUsers(client) {
     CREATE TABLE IF NOT EXISTS users (
     id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
     email VARCHAR(50) NOT NULL,
+    password VARCHAR(100) NOT NULL,
     name VARCHAR(50) NOT NULL,
     last_name VARCHAR(50) NOT NULL,
     profile_pic VARCHAR(255) NULL,
@@ -118,11 +120,13 @@ async function seedUsers(client) {
     // Insert data into the "invoices" table
     const insertedUsers = await Promise.all(
       USERS.map(
-        (user) => client.sql`
-        INSERT INTO users (id, email, name, last_name)
-        VALUES (${user.id}, ${user.name}, ${user.lastName}, ${user.email})
-        ON CONFLICT (id) DO NOTHING;
-      `,
+        async (user) => {
+          const encryptedPassword = await bcrypt.hash(user.password, 10);
+          return client.sql`
+            INSERT INTO users (id, email, password, name, last_name)
+            VALUES (${user.id}, ${user.email}, ${encryptedPassword}, ${user.name}, ${user.lastName})
+            ON CONFLICT (id) DO NOTHING;`;
+        }
       ),
     );
 

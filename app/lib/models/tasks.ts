@@ -1,5 +1,5 @@
 import { Label } from "./labels";
-import { Member } from "./members";
+import { User } from "./members";
 
 export type Task = {
     id: string;
@@ -9,7 +9,7 @@ export type Task = {
     description?: string;
     time_estimate: number; // hours
     dueDate: Date;
-    members: Member[];
+    members: User[];
     created_at: Date;
     labels?: Label[];
 };

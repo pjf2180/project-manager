@@ -1,5 +1,5 @@
 import { Label } from "@/app/lib/models/labels";
-import { Member } from "@/app/lib/models/members";
+import { User } from "@/app/lib/models/members";
 import { TaskViewModel } from "../../lib/models/tasks";
 import Link from "next/link";
 import { MemberDropdown } from "../users/MemberDropdown";
@@ -19,7 +19,7 @@ export type CreateTaskFormData = {
 export type CreateTaskDialogProps = {
     projectId: string;
     taskVm?: TaskViewModel;
-    projectMembers: Member[];
+    projectMembers: User[];
     labels: Label[];
     actionFn: (formData: FormData) => void
 }

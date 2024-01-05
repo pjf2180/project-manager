@@ -2,7 +2,7 @@ import { fetchProjectLabels } from "@/app/lib/data/labels/getLabels";
 import { fetchTasksByStatus } from "@/app/lib/data/tasks/getTasks";
 import { fetchProjectUsers } from "@/app/lib/data/users/getProjectUsers";
 import { Label } from "@/app/lib/models/labels";
-import { Member } from "@/app/lib/models/members";
+import { User } from "@/app/lib/models/members";
 import { Task, TaskGroupByStatus } from "@/app/lib/models/tasks";
 import { CreateTaskDialog } from "@/app/ui/tasks/CreateTaskDialog";
 import { TasksByStatus } from "@/app/ui/tasks/TasksByStatus";
@@ -14,7 +14,7 @@ export const dynamic = 'force-dynamic';
 export default async function ProjectTasksPage({ params, searchParams }: { params: { projectId: string[] }, searchParams: { [key: string]: string | string[] | undefined } }) {
     const projectId = params.projectId[0];
 
-    const projectMembers: Member[] = await fetchProjectUsers(projectId);
+    const projectMembers: User[] = await fetchProjectUsers(projectId);
     const projectLabels: Label[] = await fetchProjectLabels(projectId);
     const groups: TaskGroupByStatus = await fetchTasksByStatus(projectId);
     const getSelectedTask = (): Task | undefined => {

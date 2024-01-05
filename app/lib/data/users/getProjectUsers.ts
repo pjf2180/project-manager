@@ -1,7 +1,7 @@
 import { sql } from "@vercel/postgres";
-import { Member } from "../../models/members";
+import { User } from "../../models/members";
 
-export async function fetchProjectUsers(projectId: string): Promise<Member[]> {
+export async function fetchProjectUsers(projectId: string): Promise<User[]> {
     try {
         const fetchedUsers = await sql`
             SELECT u.*
@@ -11,7 +11,7 @@ export async function fetchProjectUsers(projectId: string): Promise<Member[]> {
             WHERE pMem.project_id = ${projectId}
         `;
         return fetchedUsers.rows.map(row => {
-            return row as Member
+            return row as User
         });
     } catch (error) {
         console.error(error);

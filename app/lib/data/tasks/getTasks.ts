@@ -1,6 +1,6 @@
 import { sql } from "@vercel/postgres";
 import { Task, TaskGroupByStatus } from "../../models/tasks";
-import { Member } from "../../models/members";
+import { User } from "../../models/members";
 
 export async function fetchTasksByStatus(projectId: string): Promise<TaskGroupByStatus> {
     
@@ -40,7 +40,7 @@ export async function fetchTasksByStatus(projectId: string): Promise<TaskGroupBy
 
 }
 
-export async function fetchMembersByTask(taskId: string): Promise<Member[]> {
+export async function fetchMembersByTask(taskId: string): Promise<User[]> {
     try {
         const taskMembers = await sql`
         SELECT u.*

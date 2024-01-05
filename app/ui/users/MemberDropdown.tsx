@@ -1,11 +1,11 @@
 'use client';
-import { Member } from "@/app/lib/models/members";
+import { User } from "@/app/lib/models/members";
 import { Dropdown } from "../shared/inputs/dropdown";
 import { useState } from "react";
 import { UserAvatar } from "./UsersPreview";
 
 export type MemberDropdownContainerProps = {
-    members: Member[];
+    members: User[];
     selectedMemberIds: string[];
 }
 
@@ -23,7 +23,7 @@ export function MemberDropdown({ members, selectedMemberIds }: MemberDropdownCon
             options={members.map(m => m.id)}
             selections={selections}
             renderSelection={(id: string) => {
-                const member = members.find(x => x.id === id) as Member;
+                const member = members.find(x => x.id === id) as User;
                 return <UserAvatar onClick={() => handleMemberDelete(id)} member={member} />
             }}
             renderOption={(id: string) => {
