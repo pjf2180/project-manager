@@ -1,19 +1,27 @@
+import { Prisma } from "@prisma/client";
 import { TaskSchemaDto } from "../../actions";
-import { Task, TaskStatus } from "../../models/tasks";
-import { sql } from '@vercel/postgres';
+import { prismaClient } from "../../prisma/client";
 
-export async function createTasks(tasks: TaskSchemaDto[]) {
-
+export async function createTask(task: TaskSchemaDto, members: string[]) {
     try {
-        const task = tasks[0];
-        const taskStatus: TaskStatus = 'open'
-        await sql`
-        INSERT INTO tasks ( name, task_status, description, time_estimate, due_date, project_id, labels_json)
-        VALUES ( ${task.name}, ${taskStatus}, ${task.description}, ${task.timeEstimate}, ${task.dueDate}, ${task.projectId}, (${task.labels}::jsonb))
-        ON CONFLICT (id) DO NOTHING;
-        `;
+        await prismaClient.tasks.create({
+            data: {
+                description: task.description,
+                name: task.name,
+                labels_json: task.labels,
+                task_status: task.task_status,
+                due_date: task.dueDate,
+                time_estimate: task.timeEstimate,
+                project_id: task.projectId,
+                taskmembers: {
+                    createMany: {
+                        data: members.map(x => ({ user_id: x }))
+                    }
+                }
+            }
+        })
     } catch (error) {
         console.error(error);
-        throw error;
+        throw new Error(`Error creating task: ${task.name}`)
     }
 }

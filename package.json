@@ -8,6 +8,9 @@
     "start": "next start",
     "lint": "next lint",
     "seed": "node -r dotenv/config ./scripts/seed.js",
+    "seed-2": "npx ts-node ./scripts/seed.ts",
+    "add-prisma-migration": "prisma migrate dev --name --",
+    "update-prisma-client": "prisma generate",
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build"
   },
@@ -17,7 +20,6 @@
     "@pothos/plugin-prisma": "^3.63.1",
     "@prisma/client": "^5.7.1",
     "@types/pg-format": "^1.0.5",
-    "@vercel/postgres": "^0.5.1",
     "bcrypt": "^5.1.1",
     "clsx": "^2.0.0",
     "dotenv": "^16.3.1",
@@ -55,6 +57,7 @@
     "typescript": "^5"
   },
   "prisma": {
-    "seed": "ts-node --transpile-only ./prisma/seed.ts"
+    "seed": "ts-node --transpile-only ./prisma/seed.ts",
+    "schema": "./app/lib/prisma/schema.prisma"
   }
 }

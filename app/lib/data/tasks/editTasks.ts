@@ -1,23 +1,22 @@
 import { TaskUpdate } from "../../actions";
-import { createClient } from '@vercel/postgres';
 import format from 'pg-format';
 
 type SQLAssignment = { identifier: string, literal: string | number | undefined }
 
 export async function editTask(taskUpdate: TaskUpdate) {
-    const client = createClient();
-    await client.connect();
-    try {
-        const assignments: SQLAssignment[] = getColumnAssignments(taskUpdate);
-        const template = `UPDATE tasks SET ${createAssignmentTemplate(assignments)} WHERE id = '${taskUpdate.taskId}'`;
-        const values = getTemplateValues(assignments);
-        const sqlQuery = format(template, ...values);
-        await client.query(sqlQuery);
-    } catch (error) {
-        console.error(error);
-        throw error;
-    }
-    await client.end();
+    // const client = createClient();
+    // await client.connect();
+    // try {
+    //     const assignments: SQLAssignment[] = getColumnAssignments(taskUpdate);
+    //     const template = `UPDATE tasks SET ${createAssignmentTemplate(assignments)} WHERE id = '${taskUpdate.taskId}'`;
+    //     const values = getTemplateValues(assignments);
+    //     const sqlQuery = format(template, ...values);
+    //     await client.query(sqlQuery);
+    // } catch (error) {
+    //     console.error(error);
+    //     throw error;
+    // }
+    // await client.end();
 }
 
 function getColumnAssignments(taskUpdate: TaskUpdate): SQLAssignment[] {

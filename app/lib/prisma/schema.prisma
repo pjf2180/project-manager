@@ -8,18 +8,22 @@ generator pothos {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url = env("POSTGRES_PRISMA_URL") // uses connection pooling
+  directUrl = env("POSTGRES_URL_NON_POOLING") // uses a direct connection
 }
 
 model labelgroups {
-  organization_id String @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  label_group_id  String         @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
   options_json    Json
+  organization_id String?        @unique @db.Uuid
+  organizations   organizations? @relation(fields: [organization_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
 }
 
 model organizations {
-  id       String     @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
-  name     String     @db.VarChar(50)
-  projects projects[]
+  id          String       @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  name        String       @db.VarChar(50)
+  labelgroups labelgroups?
+  projects    projects[]
 }
 
 model projectmembers {

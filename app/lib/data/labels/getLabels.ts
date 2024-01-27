@@ -1,27 +1,29 @@
-import { sql } from "@vercel/postgres";
+import { Prisma } from "@prisma/client";
 import { Label } from "../../models/labels";
+import { prismaClient } from "../../prisma/client";
 
 export async function fetchProjectLabels(projectId: string): Promise<Label[]> {
+    let labels: Label[] = [];
     try {
-        const fetchedProject = await sql`
-            SELECT p.*
-            FROM projects p
-            WHERE p.id = ${projectId}
-        `;
-        const project = fetchedProject.rows[0];
-        const orgId = project['organization_id'];
-
-        const fetchedLabelGroups = await sql`
-            SELECT options_json
-            FROM labelgroups
-            WHERE organization_id = ${orgId}
-        `;
-        
-        const labelOptions = fetchedLabelGroups.rows[0]['options_json'];
-        return labelOptions;
-
+        const project = await prismaClient.projects.findUniqueOrThrow({
+            where: {
+                id: projectId,
+            },
+            include: {
+                organizations: {
+                    include: {
+                        labelgroups: true
+                    }
+                }
+            }
+        });
+        const labelsJson = project.organizations.labelgroups?.options_json;
+        if (labelsJson) {
+            labels = JSON.parse((<Prisma.JsonArray>labelsJson).toString());
+        }
     } catch (error) {
         console.error(error);
-        throw error;
+        throw new Error('Error fetching projects labels');
     }
+    return labels;
 }
