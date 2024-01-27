@@ -114,6 +114,7 @@ export function CreateTask({ taskVm, projectId, projectMembers, labels, actionFn
                                 <button type="submit" className="p-2 pr-4 pl-4 rounded-md border-2 bg-green text-white">Create Task</button>
                             </div>
                         </div>
+                        <input type="hidden" name="task_status" value="open" />
                         <input type="hidden" name="projectId" value={projectId} />
                     </div>
                 </form>

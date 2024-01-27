@@ -1,7 +1,7 @@
 'use server';
 import { z } from 'zod';
 import { Label } from './models/labels';
-import { createTasks } from './data/tasks/createTasks';
+import { createTask } from './data/tasks/createTasks';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { editTask } from './data/tasks/editTasks';
@@ -37,7 +37,9 @@ const ValidateMembers = TaskMembersSchema;
 
 export async function createInvoice(formData: FormData) {
   const rawFormData = Object.fromEntries(formData.entries());
+  console.log(rawFormData);
   try {
+    rawFormData["dueDate"] = new Date(rawFormData["dueDate"].toString()).toISOString();
     const validatedTask = ValidateTaskSchema.parse(rawFormData);
     const labelsJson = formData.get('labels')?.toString();
     const labels: Label[] = JSON.parse(labelsJson as string);
@@ -45,8 +47,8 @@ export async function createInvoice(formData: FormData) {
     const membersJson = formData.get('members')?.toString();
     const memberIds: string[] = JSON.parse(membersJson as string);
     ValidateMembers.parse(memberIds);
-    console.log('validation successful');
-    await createTasks([validatedTask])
+    console.log('validation successful', validatedTask);
+    await createTask(validatedTask, memberIds);
     console.log('Created task successfully');
   } catch (error) {
     console.error(error);
