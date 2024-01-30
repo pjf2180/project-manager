@@ -227,6 +227,7 @@ export async function seedProjects(client: PrismaClient, organization_id: string
                             time_estimate: t.timeEstimate,
                             description: t.description,
                             labels_json: t.labels_json,
+                            todos_json: t.todos
                         }))
                     ]
                 }
