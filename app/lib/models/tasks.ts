@@ -12,6 +12,7 @@ export type Task = {
     members: User[];
     created_at: Date;
     labels?: Label[];
+    todos: TaskTodo[];
 };
 
 export type TaskStatus = 'open' | 'progress' | 'closed';

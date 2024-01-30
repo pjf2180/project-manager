@@ -16,10 +16,11 @@ const TaskSchema = z.object({
   labels: z.string(),
   members: z.string(),
   projectId: z.string(),
+  todoList: z.string(),
   task_status: z.enum(['progress', 'open', 'closed'])
 });
 export type TaskSchemaDto = z.infer<typeof TaskSchema>;
-const TaskUpdateSchema = TaskSchema.partial().extend({ taskId: z.string() });
+const TaskUpdateSchema = TaskSchema.extend({ taskId: z.string() });
 export type TaskUpdate = z.infer<typeof TaskUpdateSchema>;
 const ValidateTaskSchema = TaskSchema.omit({});
 
@@ -66,9 +67,8 @@ export async function updateTaskAction(formData: FormData) {
     const validatedTask = TaskUpdateSchema.parse(rawData);
     await editTask(validatedTask as TaskUpdate);
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
-
   revalidatePath(`/projects/${formData.get('taskId')}`)
 }
 

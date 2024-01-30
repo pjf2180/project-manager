@@ -1,8 +1,8 @@
 'use client';
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { Dialog } from "../shared/Dialog";
+import { Dialog } from "../../shared/Dialog";
 import { TaskDetails } from "./TaskDetails";
-import { Task } from "../../lib/models/tasks";
+import { Task } from "../../../lib/models/tasks";
 import { updateTaskAction } from "@/app/lib/actions";
 
 export function TaskDetailsDialog({ task }: { task?: Task }) {

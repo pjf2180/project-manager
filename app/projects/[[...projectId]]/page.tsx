@@ -4,10 +4,10 @@ import { fetchProjectUsers } from "@/app/lib/data/users/getProjectUsers";
 import { Label } from "@/app/lib/models/labels";
 import { User } from "@/app/lib/models/members";
 import { Task, TaskGroupByStatus } from "@/app/lib/models/tasks";
-import { CreateTaskDialog } from "@/app/ui/tasks/CreateTaskDialog";
+import { CreateTaskDialog } from "../../ui/tasks/CreateTask/CreateTaskDialog";
 import { TasksByStatus } from "@/app/ui/tasks/TasksByStatus";
 import { createInvoice } from "@/app/lib/actions";
-import { TaskDetailsDialog } from "@/app/ui/tasks/TaskDetailsDialog";
+import { TaskDetailsDialog } from "@/app/ui/tasks/TaskDetails/TaskDetailsDialog";
 
 export const dynamic = 'force-dynamic';
 
@@ -21,18 +21,48 @@ export default async function ProjectTasksPage({ params, searchParams }: { param
         for (let i = 0; i < groups.open.length; i++) {
             const task = groups.open[i];
             if (task.id == searchParams['taskDetails']) {
+                task.todos = [
+                    {
+                        completed: true,
+                        text: 'Login redesign'
+                    },
+                    {
+                        completed: false,
+                        text: 'Login form validation'
+                    },
+                ]
                 return task;
             }
         }
         for (let i = 0; i < groups.closed.length; i++) {
             const task = groups.closed[i];
             if (task.id == searchParams['taskDetails']) {
+                task.todos = [
+                    {
+                        completed: true,
+                        text: 'Login redesign'
+                    },
+                    {
+                        completed: false,
+                        text: 'Login form validation'
+                    },
+                ]
                 return task;
             }
         }
         for (let i = 0; i < groups.progress.length; i++) {
             const task = groups.progress[i];
             if (task.id == searchParams['taskDetails']) {
+                task.todos = [
+                    {
+                        completed: true,
+                        text: 'Login redesign'
+                    },
+                    {
+                        completed: false,
+                        text: 'Login form validation'
+                    },
+                ]
                 return task;
             }
         }

@@ -2,7 +2,7 @@
 import { TaskViewModel } from "@/app/lib/models/tasks";
 import { Label } from "@/app/lib/models/labels";
 import { User } from "@/app/lib/models/members";
-import { Dialog } from "../shared/Dialog";
+import { Dialog } from "../../shared/Dialog";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { CreateTask } from "./CreateTask";
 

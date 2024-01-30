@@ -58,6 +58,7 @@ model tasks {
   name          String        @db.VarChar(50)
   task_status   status
   labels_json   Json
+  todos_json   Json
   description   String        @db.VarChar(1024)
   time_estimate Int?
   due_date      DateTime?     @db.Date

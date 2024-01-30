@@ -1,9 +1,18 @@
 import { TaskUpdate } from "../../actions";
-import format from 'pg-format';
+import { prismaClient } from "../../prisma/client";
+// import format from 'pg-format';
 
-type SQLAssignment = { identifier: string, literal: string | number | undefined }
+// type SQLAssignment = { identifier: string, literal: string | number | undefined }
 
 export async function editTask(taskUpdate: TaskUpdate) {
+    await prismaClient.tasks.update({
+        where: {
+            id: taskUpdate.taskId
+        },
+        data: {
+            ...taskUpdate,
+        }
+    });
     // const client = createClient();
     // await client.connect();
     // try {
@@ -19,39 +28,39 @@ export async function editTask(taskUpdate: TaskUpdate) {
     // await client.end();
 }
 
-function getColumnAssignments(taskUpdate: TaskUpdate): SQLAssignment[] {
+// function getColumnAssignments(taskUpdate: TaskUpdate): SQLAssignment[] {
 
-    const updatePairs: SQLAssignment[] = [];
+//     const updatePairs: SQLAssignment[] = [];
 
-    for (const key in taskUpdate) {
-        if (key !== 'taskId' &&
-            taskUpdate.hasOwnProperty(key as keyof TaskUpdate) &&
-            notNullOrUndefined(taskUpdate[key as keyof TaskUpdate])
-        ) {
-            const pair: SQLAssignment = {
-                identifier: key,
-                literal: taskUpdate[key as keyof TaskUpdate]
-            };
-            updatePairs.push(pair);
-        }
-    }
-    return updatePairs;
-}
+//     for (const key in taskUpdate) {
+//         if (key !== 'taskId' &&
+//             taskUpdate.hasOwnProperty(key as keyof TaskUpdate) &&
+//             notNullOrUndefined(taskUpdate[key as keyof TaskUpdate])
+//         ) {
+//             const pair: SQLAssignment = {
+//                 identifier: key,
+//                 literal: taskUpdate[key as keyof TaskUpdate]
+//             };
+//             updatePairs.push(pair);
+//         }
+//     }
+//     return updatePairs;
+// }
 
-function createAssignmentTemplate(assignments: SQLAssignment[]) {
-    return assignments.map(() => {
-        return `%I = %L`
-    });
-}
+// function createAssignmentTemplate(assignments: SQLAssignment[]) {
+//     return assignments.map(() => {
+//         return `%I = %L`
+//     });
+// }
 
-function getTemplateValues(assignments: SQLAssignment[]): (string | number | undefined)[] {
-    return assignments
-        .reduce((accum: (string | number | undefined)[], current: SQLAssignment) => {
-            const { identifier, literal } = current;
-            return [...accum, identifier, literal];
-        }, []);
-}
+// function getTemplateValues(assignments: SQLAssignment[]): (string | number | undefined)[] {
+//     return assignments
+//         .reduce((accum: (string | number | undefined)[], current: SQLAssignment) => {
+//             const { identifier, literal } = current;
+//             return [...accum, identifier, literal];
+//         }, []);
+// }
 
-function notNullOrUndefined(val: any) {
-    return val != null && val != undefined;
-}
+// function notNullOrUndefined(val: any) {
+//     return val != null && val != undefined;
+// }
