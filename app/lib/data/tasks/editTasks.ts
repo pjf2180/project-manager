@@ -7,7 +7,7 @@ import { prismaClient } from "../../prisma/client";
 export async function editTask(taskUpdate: TaskUpdate) {
     await prismaClient.tasks.update({
         where: {
-            id: taskUpdate.taskId
+            id: taskUpdate.id
         },
         data: {
             ...taskUpdate,

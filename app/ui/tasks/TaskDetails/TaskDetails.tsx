@@ -39,7 +39,7 @@ export function TaskDetails({ task, currentDate, onClose, updateTaskAction }: Ta
             <div className="flex justify-between p-8 border-b-2">
                 <div className="text-main font-semibold text-xl">{name}</div>
                 <div className="flex gap-5">
-                    <input type="hidden" name="taskId" value={task.id} />
+                    <input type="hidden" name="id" value={task.id} />
                     <select id="myDropdown" name="task_status" value={selectedStatus} onChange={handleStatusSelection}>
                         <option value="" disabled>Select...</option>
                         <option value="open">Open</option>
@@ -56,7 +56,7 @@ export function TaskDetails({ task, currentDate, onClose, updateTaskAction }: Ta
                     <p className="text-base text-main">{description}</p>
                 </div>
                 <div className="mb-8">
-                    <input type="hidden" name="todoList" value={JSON.stringify(todosState)} />
+                    <input type="hidden" name="todos_json" value={JSON.stringify(todosState)} />
                     <TaskTodoList
                         todos={todosState}
                         onChange={handleTodoChange} />

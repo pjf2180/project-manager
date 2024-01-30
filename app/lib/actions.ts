@@ -16,11 +16,11 @@ const TaskSchema = z.object({
   labels: z.string(),
   members: z.string(),
   projectId: z.string(),
-  todoList: z.string(),
+  todos_json: z.string(),
   task_status: z.enum(['progress', 'open', 'closed'])
 });
 export type TaskSchemaDto = z.infer<typeof TaskSchema>;
-const TaskUpdateSchema = TaskSchema.extend({ taskId: z.string() });
+const TaskUpdateSchema = TaskSchema.partial().extend({ id: z.string() });
 export type TaskUpdate = z.infer<typeof TaskUpdateSchema>;
 const ValidateTaskSchema = TaskSchema.omit({});
 
@@ -38,7 +38,6 @@ const ValidateMembers = TaskMembersSchema;
 
 export async function createInvoice(formData: FormData) {
   const rawFormData = Object.fromEntries(formData.entries());
-  console.log(rawFormData);
   try {
     rawFormData["dueDate"] = new Date(rawFormData["dueDate"].toString()).toISOString();
     const validatedTask = ValidateTaskSchema.parse(rawFormData);
@@ -48,7 +47,6 @@ export async function createInvoice(formData: FormData) {
     const membersJson = formData.get('members')?.toString();
     const memberIds: string[] = JSON.parse(membersJson as string);
     ValidateMembers.parse(memberIds);
-    console.log('validation successful', validatedTask);
     await createTask(validatedTask, memberIds);
     console.log('Created task successfully');
   } catch (error) {
@@ -66,6 +64,7 @@ export async function updateTaskAction(formData: FormData) {
   try {
     const validatedTask = TaskUpdateSchema.parse(rawData);
     await editTask(validatedTask as TaskUpdate);
+    console.log('Succesfully updated task', rawData);
   } catch (error) {
     console.error(error);
   }
