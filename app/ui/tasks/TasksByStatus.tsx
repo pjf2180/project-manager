@@ -2,17 +2,20 @@ import { Task, TaskGroupByStatus, TaskStatus } from "@/app/lib/models/tasks";
 import { TaskColumn } from "./TaskColumn";
 
 export function TasksByStatus({ groups }: { groups: TaskGroupByStatus }) {
+  const groupKeys: TaskStatus[] = Object.keys(groups) as TaskStatus[];
 
-    const groupKeys: TaskStatus[] = Object.keys(groups) as TaskStatus[];
-
-    return <div className="md:flex gap-8">
-        {
-            groupKeys.map((key: TaskStatus) => {
-                const groupTasks: Task[] = groups[key];
-                return (<div className="w-full md:w-1/3 ">
-                    <TaskColumn count={groupTasks.length} status={key} tasks={groupTasks} />
-                </div>)
-            })
-        }
+  return (
+    <div className="grid grid-cols-1 justify-items-center md:grid-cols-3 md:gap-2 mx-auto px-2 max-w-[1024px]">
+      {groupKeys.map((key: TaskStatus) => {
+        const groupTasks: Task[] = groups[key];
+        return (
+          <TaskColumn
+            count={groupTasks.length}
+            status={key}
+            tasks={groupTasks}
+          />
+        );
+      })}
     </div>
+  );
 }
