@@ -1,66 +1,55 @@
-import { sql } from "@vercel/postgres";
 import { Task, TaskGroupByStatus } from "../../models/tasks";
 import { User } from "../../models/members";
+import { prismaClient } from "../../prisma/client";
+import { Label } from "../../models/labels";
 
 export async function fetchTasksByStatus(projectId: string): Promise<TaskGroupByStatus> {
-    
-    try {
-        const data = await sql`
-        SELECT *
-        FROM tasks
-        WHERE project_id = ${projectId}
-        ORDER BY created_at DESC
-        LIMIT 10`;
 
-        const projectTaskProms: Promise<Task>[] = data.rows.map(async (r) => {
-            const members = await fetchMembersByTask(r.id);
-            return {
-                id: r.id,
-                name: r.name,
-                status: r.task_status,
-                projectId: r.project_id,
-                time_estimate: r.time_estimate,
-                description: r.description,
-                labels: r.labels_json,
-                members,
-                created_at: new Date(r.created_at),
-                dueDate: new Date(r.due_date),
-            }
-        });
-        const projectTasks: Task[] = await Promise.all(projectTaskProms);
-        return {
-            open: projectTasks.filter(p => p.status === 'open'),
-            progress: projectTasks.filter(p => p.status === 'progress'),
-            closed: projectTasks.filter(p => p.status === 'closed'),
-        };
-    } catch (error) {
-        console.error('Database Error:', error);
-        throw new Error('Failed to fetch the latest tasks.');
-    }
-
+    const tasksForProject: Task[] = await getTasksForProject(projectId);
+    return {
+        open: tasksForProject.filter(p => p.status === 'open'),
+        progress: tasksForProject.filter(p => p.status === 'progress'),
+        closed: tasksForProject.filter(p => p.status === 'closed'),
+    };
 }
-
-export async function fetchMembersByTask(taskId: string): Promise<User[]> {
+export async function getTasksForProject(project_id: string): Promise<Task[]> {
     try {
-        const taskMembers = await sql`
-        SELECT u.*
-        FROM tasks t
-        JOIN taskmembers tskMem ON tskMem.task_id = t.id
-        JOIN users u ON u.id = tskMem.user_id
-        WHERE t.id = ${taskId}
-        `;
-
-        return taskMembers.rows.map((row) => {
-            return {
-                id: row.id,
-                email: row.email,
-                name: row.name,
-                lastName: row.last_name,
-                profileImage: row.profile_pic
+        const getTasks = await prismaClient.tasks.findMany({
+            where: {
+                project_id: project_id,
+            },
+            include: {
+                taskmembers: {
+                    include: {
+                        users: true
+                    }
+                }
             }
         });
+        return getTasks.map((t): Task => {
+            const labels = JSON.parse(t.labels_json?.toString() ?? '') as Label[];
+            return ({
+                id: t.id,
+                name: t.name,
+                status: t.task_status,
+                labels,
+                description: t.description,
+                time_estimate: t.time_estimate as number,
+                dueDate: new Date(t.due_date ?? 0),
+                created_at: new Date(t.created_at ?? 0),
+                projectId: t.project_id as string,
+                members: t.taskmembers.map(({ users }): User => ({
+                    email: users.email,
+                    id: users.id,
+                    lastName: users.last_name,
+                    name: users.name,
+                    password: '',
+                    profileImage: ''
+                }))
+            })
+        })
     } catch (error) {
         console.error(error);
-        throw error;
+        throw new Error(`Failed to fetch tasks for project: ${project_id}`)
     }
 }

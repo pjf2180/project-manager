@@ -39,8 +39,9 @@ async function seedLabelGroups(client) {
     await client.sql`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`;
     const buildTable = client.sql`
       CREATE TABLE IF NOT EXISTS labelgroups (
-        organization_id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
-        options_json jsonb NOT NULL
+        label_group_id UUID DEFAULT uuid_generate_v4() PRIMARY KEY,
+        options_json jsonb NOT NULL,
+        organization_id UUID REFERENCES organizations(id) UNIQUE
       );
     `;
     const insertedLabelGroups = await Promise.all(LABEL_GROUPS.map(lB => {

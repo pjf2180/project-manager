@@ -1,8 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { CreateTask } from '../../app/ui/tasks/CreateTask';
-import * as TaskPreviewCardStory from './TaskPreviewCard.stories';
-import { StoryFrameDecorator } from '../utils/decorators';
+import { CreateTask } from './CreateTask';
+import * as TaskPreviewCardStory from '../../../../stories/tasks/TaskPreviewCard.stories';
+import { StoryFrameDecorator } from '../../../../stories/utils/decorators';
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
@@ -50,7 +50,8 @@ export const Primary: Story = {
                 email: 'BLAH@gmail.com',
                 name: 'firstName',
                 lastName: 'lastname',
-                profileImage: 'urlforimage'
+                profileImage: 'urlforimage',
+                password: ''
             }
         ]
     },

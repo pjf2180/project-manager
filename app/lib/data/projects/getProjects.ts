@@ -1,23 +1,22 @@
-import { sql } from "@vercel/postgres";
 import { Project } from "../../models/projects";
+import { prismaClient } from "../../prisma/client";
 
 export async function fetchProjects(userId: string): Promise<Project[]> {
     try {
-        const fetchedProjects = await sql`
-            SELECT p.*
-            FROM projects p
-            JOIN projectMembers pMem ON p.id = pMem.project_id
-            JOIN users u ON u.id = pMem.user_id
-            WHERE u.id = ${userId}
-        `;
-        return fetchedProjects.rows.map(row => {
-            return {
-                id: row.id,
-                name: row.name
-            }
-        })
+        const projects = await prismaClient.projects.findMany({
+            include: {
+                projectmembers: {
+                    where: {
+                        user_id: userId
+                    }
+                },
+            },
+        });
+        return projects.map(p => ({
+            name: p.name,
+            id: p.id
+        }));
     } catch (error) {
-        console.error(error);
-        throw error;
+        throw new Error(`Error fetching projects for user: ${userId}`);
     }
 }

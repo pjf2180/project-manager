@@ -24,7 +24,7 @@ export function MemberDropdown({ members, selectedMemberIds }: MemberDropdownCon
             selections={selections}
             renderSelection={(id: string) => {
                 const member = members.find(x => x.id === id) as User;
-                return <UserAvatar onClick={() => handleMemberDelete(id)} member={member} />
+                return <UserAvatar key={id} onClick={() => handleMemberDelete(id)} member={member} />
             }}
             renderOption={(id: string) => {
                 const member = members.find(x => x.id === id);

@@ -1,7 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { StoryFrameDecorator } from '../utils/decorators';
-import { TaskDetails } from '../../app/ui/tasks/TaskDetails';
-import * as TaskPreviewStory from './TaskPreviewCard.stories';
+import { StoryFrameDecorator } from '../../../../stories/utils/decorators';
+import { TaskDetails } from './TaskDetails';
+import * as TaskPreviewStory from '../../../../stories/tasks/TaskPreviewCard.stories';
+import * as TaskTodoListStory from './TaskTodoList/TaskTodoList.stories';
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
@@ -27,10 +28,13 @@ type Story = StoryObj<typeof meta>;
 
 export const Primary: Story = {
     args: {
+        currentDate: new Date('2023-12-14T01:41:37.684Z'),
         task: {
             ...TaskPreviewStory.Primary.args.task,
+            todos: [
+                ...TaskTodoListStory.Primary.args.todos
+            ],
             dueDate: new Date('2023-12-18T01:41:37.684Z'),
-        },
-        currentDate: new Date('2023-12-14T01:41:37.684Z'),
+        }
     }
 };

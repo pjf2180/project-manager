@@ -32,6 +32,7 @@ export const Primary: Story = {
             status: 'open',
             projectId: 'asdffsd',
             time_estimate: 45,
+            todos: [],
             labels: [
                 {
                     color: 'green',
@@ -52,14 +53,16 @@ export const Primary: Story = {
                     name: 'John',
                     lastName: 'appleSeed',
                     profileImage: '',
-                    id: '0'
+                    id: '0',
+                    password: ''
                 },
                 {
                     email: 'jehnappleseed@gmail.',
                     name: 'Jen',
                     lastName: 'appleSeed',
                     profileImage: '',
-                    id: '1'
+                    id: '1',
+                    password: ''
                 },
             ]
 

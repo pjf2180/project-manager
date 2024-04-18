@@ -1,7 +1,7 @@
 'use server';
 import { z } from 'zod';
 import { Label } from './models/labels';
-import { createTasks } from './data/tasks/createTasks';
+import { createTask } from './data/tasks/createTasks';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { editTask } from './data/tasks/editTasks';
@@ -16,10 +16,11 @@ const TaskSchema = z.object({
   labels: z.string(),
   members: z.string(),
   projectId: z.string(),
+  todos_json: z.string(),
   task_status: z.enum(['progress', 'open', 'closed'])
 });
 export type TaskSchemaDto = z.infer<typeof TaskSchema>;
-const TaskUpdateSchema = TaskSchema.partial().extend({ taskId: z.string() });
+const TaskUpdateSchema = TaskSchema.partial().extend({ id: z.string() });
 export type TaskUpdate = z.infer<typeof TaskUpdateSchema>;
 const ValidateTaskSchema = TaskSchema.omit({});
 
@@ -38,6 +39,7 @@ const ValidateMembers = TaskMembersSchema;
 export async function createInvoice(formData: FormData) {
   const rawFormData = Object.fromEntries(formData.entries());
   try {
+    rawFormData["dueDate"] = new Date(rawFormData["dueDate"].toString()).toISOString();
     const validatedTask = ValidateTaskSchema.parse(rawFormData);
     const labelsJson = formData.get('labels')?.toString();
     const labels: Label[] = JSON.parse(labelsJson as string);
@@ -45,8 +47,7 @@ export async function createInvoice(formData: FormData) {
     const membersJson = formData.get('members')?.toString();
     const memberIds: string[] = JSON.parse(membersJson as string);
     ValidateMembers.parse(memberIds);
-    console.log('validation successful');
-    await createTasks([validatedTask])
+    await createTask(validatedTask, memberIds);
     console.log('Created task successfully');
   } catch (error) {
     console.error(error);
@@ -63,10 +64,10 @@ export async function updateTaskAction(formData: FormData) {
   try {
     const validatedTask = TaskUpdateSchema.parse(rawData);
     await editTask(validatedTask as TaskUpdate);
+    console.log('Succesfully updated task', rawData);
   } catch (error) {
-    console.log(error);
+    console.error(error);
   }
-
   revalidatePath(`/projects/${formData.get('taskId')}`)
 }
 
